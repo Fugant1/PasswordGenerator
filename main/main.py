@@ -7,12 +7,16 @@ app = Flask(__name__)
 def home():
     return render_template('home.html')
 
-@app.route('/generate', method=['POST'])
+@app.route('/generate', methods=['POST'])
 def generate():
     data = request.json
-    user_request = data.get('message')
-    password = create_password(user_request)
+    length = int(data.get('length'))
+    uppercase = data.get('uppercase')
+    lowercase = data.get('lowercase')
+    numbers = data.get('numbers')
+    symbols = data.get('symbols')
+    password = create_password(length, uppercase, lowercase, numbers, symbols)
     return jsonify({'password': password})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
